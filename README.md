@@ -140,14 +140,16 @@ To solve the issue - "error: command 'gcc' failed with exit status 1", gcc needs
 xcode-select --install
 ```
 
-3. Start only the webserver, and visit http://localhost:8080/home with created username and password.
+3. Start only the webserver and scheduler, and visit http://localhost:8080/home with created username and password.
 
 ```bash
 cd $AIRFLOW_HOME
 
+airflow db init
 airflow users create --role Admin --username admin --password admin --firstname admin --lastname admin  --email admin
 
-airflow webserver
+airflow webserver --port 8080
+airflow scheduler
 ```
 
 To solve the issue - "ERROR: The `secret_key` setting under the webserver config has an insecure value", update the following setting in airflow.cfg.
