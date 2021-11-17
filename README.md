@@ -155,6 +155,12 @@ To solve the issue - "ERROR: The `secret_key` setting under the webserver config
 secret_key = {SECRET_KEY}
 ```
 
+4. Start all the components, including webserver, scheduler, triggerer, etc.
+
+```bash
+airflow standalone
+```
+
 ## Installing from PyPI
 
 We publish Apache Airflow as `apache-airflow` package in PyPI. Installing it however might be sometimes tricky
