@@ -134,6 +134,12 @@ pip install 'apache-airflow==2.2.2' \
  --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.2.2/constraints-3.7.txt"
 ```
 
+To solve the issue - "error: command 'gcc' failed with exit status 1", gcc needs to be installed.
+
+```bash
+xcode-select --install
+```
+
 3. Start only the webserver, and visit http://localhost:8080/home with created username and password.
 
 ```bash
@@ -142,6 +148,11 @@ cd $AIRFLOW_HOME
 airflow users create --role Admin --username admin --password admin --firstname admin --lastname admin  --email admin
 
 airflow webserver
+```
+
+To solve the issue - "ERROR: The `secret_key` setting under the webserver config has an insecure value", update the following setting in airflow.cfg.
+```bash
+secret_key = {SECRET_KEY}
 ```
 
 ## Installing from PyPI
