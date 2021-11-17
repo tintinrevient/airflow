@@ -152,6 +152,11 @@ airflow webserver --port 8080
 airflow scheduler
 ```
 
+To solve the issue - "Could not import DAGs in example_kubernetes_executor_config.py: No module named 'kubernetes'", install kubernetes.
+```bash
+pip install apache-airflow-providers-cncf-kubernetes
+```
+
 To solve the issue - "ERROR: The `secret_key` setting under the webserver config has an insecure value", update the following setting in airflow.cfg.
 ```bash
 secret_key = {SECRET_KEY}
