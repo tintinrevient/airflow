@@ -122,7 +122,7 @@ Documentation for dependent projects like provider packages, Docker image, Helm 
 export AIRFLOW_HOME=~/airflow
 ```
 
-Note that it has to be set every time a new Terminal window is opened. Airflow will initialize the airflow.cfg file, the airflow.db file, the airflow-webserver.pid file, etc. here with the logs folder.
+Note that it has to be set every time a new Terminal window is opened. Airflow will initialize airflow.cfg, airflow.db, airflow-webserver.pid, etc. here with the logs folder.
 
 2. Install Airflow.
 
