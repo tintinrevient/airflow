@@ -114,6 +114,36 @@ the [Airflow Wiki](https://cwiki.apache.org/confluence/display/AIRFLOW/Airflow+I
 
 Documentation for dependent projects like provider packages, Docker image, Helm Chart, you'll find it in [the documentation index](https://airflow.apache.org/docs/).
 
+## Installing on MacOS
+
+1. Set a chosen path as the AIRFLOW_HOME environment variable. 
+
+```bash
+export AIRFLOW_HOME=~/airflow
+```
+
+Note that it has to be set every time a new Terminal window is opened. Airflow will initialize the airflow.cfg file, the airflow.db file, the airflow-webserver.pid file, etc. here with the logs folder.
+
+2. Install Airflow.
+
+```bash
+conda create --name airflow python=3.7
+conda activate airflow
+
+pip install 'apache-airflow==2.2.2' \
+ --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.2.2/constraints-3.7.txt"
+```
+
+3. Start only the webserver, and visit http://localhost:8080/home with created username and password.
+
+```bash
+cd $AIRFLOW_HOME
+
+airflow users create --role Admin --username admin --password admin --firstname admin --lastname admin  --email admin
+
+airflow webserver
+```
+
 ## Installing from PyPI
 
 We publish Apache Airflow as `apache-airflow` package in PyPI. Installing it however might be sometimes tricky
