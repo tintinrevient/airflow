@@ -388,3 +388,6 @@ The CI infrastructure for Apache Airflow has been sponsored by:
 
 <a href="https://astronomer.io"><img src="https://assets2.astronomer.io/logos/logoForLIGHTbackground.png" alt="astronomer.io" width="250px"></a>
 <a href="https://aws.amazon.com/opensource/"><img src="docs/integration-logos/aws/AWS-Cloud-alt_light-bg@4x.png" alt="AWS OpenSource" width="130px"></a>
+
+## References
+* https://stackoverflow.com/questions/38992997/dag-not-visible-in-web-ui
