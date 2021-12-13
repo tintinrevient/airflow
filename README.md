@@ -116,7 +116,7 @@ Documentation for dependent projects like provider packages, Docker image, Helm 
 
 ## Installing on MacOS
 
-1. Set a chosen path as the AIRFLOW_HOME environment variable. 
+1. Set a chosen path as the AIRFLOW_HOME environment variable.
 
 ```bash
 export AIRFLOW_HOME=~/airflow
@@ -167,6 +167,107 @@ secret_key = {SECRET_KEY}
 ```bash
 airflow standalone
 ```
+
+5. To use postgresql instead of sqlite3, create the corresponding database and user as below:
+
+```bash
+brew services start postgresql
+psql -U posgres -f airflow.sql
+```
+
+<code>airflow.sql</code> is as below:
+```sql
+CREATE DATABASE airflow;
+CREATE USER airflow WITH PASSWORD 'airflow';
+GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
+```
+
+6. Update the <code>airflow.cfg</code> under the <code>$AIRFLOW_HOME</code> with regard to the following line:
+```
+sql_alchemy_conn = postgresql+psycopg2://airflow:airflow@localhost/airflow
+
+executor = LocalExecutor
+```
+
+Assuming the postgresql database adapter for python <code>psycopg2</code> has been installed:
+```bash
+pip install psycopg2
+```
+
+7. Finally, go back to step 3 to initialize the postgresql database for airflow.
+
+## Docker operator example
+
+[docker_example](./docker_example) has four steps:
+1. Download the movie ratings with the output <code>ratings.csv</code>;
+2. Serve the movie ratings in the gunicorn server;
+3. Get a period from <code>ratings.csv</code> and store as <code>ratings.json</code>;
+4. Rank <code>ratings.json</code> and generate the ranking file <code>rank.csv</code>.
+
+To set up the local environment:
+
+1. Create the virtual environment and install the required packages:
+```bash
+python -m venv venv
+source venv/bin/activate
+
+pip install pip-tools
+pip-sync
+
+pip install -e .
+```
+
+2. Download the <code>ratings.csv</code>:
+```bash
+download --output_path="data/ratings.csv"
+```
+
+3. Serve the <code>ratings.csv</code>:
+```bash
+gunicorn --bind 0.0.0.0:5000 docker_example.serve_ratings.serve_ratings:app
+```
+
+4. Get the <code>ratings.json</code>, which is a period from <code>ratings.csv</code>:
+```bash
+export API_USER="admin"
+export API_PASSWORD="admin"
+
+get --start_date="2019-01-01" --end_date="2019-01-02" --output_path="data/ratings.json"
+```
+
+5. Rank the <code>ratings.json</code> to generate the ranking file <code>rank.csv</code>:
+```bash
+rank --input_path="data/ratings.json" --output_path="data/rank.csv"
+```
+
+To set up the docker image, it needs to go inside each package root folder and build the image in the local registry:
+
+```bash
+docker build -t tintinrevient/get-ratings .
+docker build -t tintinrevient/rank-ratings .
+
+docker images
+
+docker run --rm tintinrevient/get-ratings get --help
+docker run --rm tintinrevient/rank-ratings rank --help
+```
+
+To set up the airflow docker operator dag, it is in [docker_dag](./docker_example/airflow/dags/docker_dag.py).
+
+Assuming the package <code>apache-airflow-providers-docker</code> has been installed:
+```bash
+pip install apache-airflow-providers-docker
+```
+
+<p>
+  <img src="./pix/airflow-docker-operator.png" width="800" />
+</p>
+
+## Kubernetes operator example
+
+<p>
+  <img src="./pix/airflow-kubernetes-operator.png" width="800" />
+</p>
 
 ## Installing from PyPI
 
