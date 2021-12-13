@@ -240,7 +240,7 @@ get --start_date="2019-01-01" --end_date="2019-01-02" --output_path="data/rating
 rank --input_path="data/ratings.json" --output_path="data/rank.csv"
 ```
 
-To set up the docker image, it needs to go inside each package root folder and build the image in the local registry:
+6. To set up the docker image, it needs to go inside each package root folder and build the image in the local registry:
 
 ```bash
 docker build -t tintinrevient/get-ratings .
@@ -252,7 +252,7 @@ docker run --rm tintinrevient/get-ratings get --help
 docker run --rm tintinrevient/rank-ratings rank --help
 ```
 
-To set up the airflow docker operator dag, it is in [docker_dag](./docker_example/airflow/dags/docker_dag.py).
+7. To set up the airflow docker operator dag, it is in [docker_dag](./docker_example/airflow/dags/docker_dag.py).
 
 Assuming the package <code>apache-airflow-providers-docker</code> has been installed:
 ```bash
