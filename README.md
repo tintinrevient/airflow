@@ -269,6 +269,59 @@ pip install apache-airflow-providers-docker
   <img src="./pix/airflow-kubernetes-operator.png" width="800" />
 </p>
 
+## DAGs
+
+DAGs must be accessible to the Airflow task scheduler and task executors with the ways as below.
+
+1. Shared filesystem:
+<p>
+  <img src="./pix/airflow-dags-shared-filesystem" width="800" />
+</p>
+
+2. Git:
+  * a CI/CD system can **push** Airflow DAGs to the Airflow system via an FTP server;
+  * a custom DAG residing in the Airflow system to **pull** Airflow DAGs to itself.
+
+```python
+with DAG(
+  dag_id = "dag_pull",
+  default_args = {"depends_on_past": False},
+  schedule_interval = datetime.timedelta(minutes=5),
+  catchup=False,
+) as dag:
+  fetch_operator = BashOperator(
+    task_id = "dag_fetch",
+    bash_command = (
+      "cd /airflow/dags && "
+      "git fetch"
+      "git reset --hard origin/master"
+    ),
+  )
+```
+
+<p>
+  <img src="./pix/airflow-dags-git-ftp" width="800" />
+</p>
+
+<p>
+  <img src="./pix/airflow-dags-git-fetch" width="800" />
+</p>
+
+3. Docker image:
+  * if the CI/CD system caches Docker layers, the base layers can be retrieved quickly based on which a separate Docker statement is added;
+  * if the CI/CD system does not cache Docker layers, you can build a base Airflow image with application dependencies and a second image only with DAGs: (1) if `requirements.txt` changes, it will trigger to build a new base image (not often); (2) if using the Airflow `Helm chart`, you can update the deployed version of the DAGs image with the `Helm CLI` by setting the tag of the newly built image.
+
+```bash
+helm upgrade airflow ./airflow-master/chart \
+  --set images.airflow.repository=<your-repo>/airflow \
+  --set images.airflow.tag=<new-tag>
+````
+
+<p>
+  <img src="./pix/airflow-dags-docker-image" width="800" />
+</p>
+
+
 ## Installing from PyPI
 
 We publish Apache Airflow as `apache-airflow` package in PyPI. Installing it however might be sometimes tricky
