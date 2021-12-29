@@ -545,3 +545,6 @@ The CI infrastructure for Apache Airflow has been sponsored by:
 
 ## References
 * https://stackoverflow.com/questions/38992997/dag-not-visible-in-web-ui
+* https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/
+* https://www.alibabacloud.com/blog/kubernetes-volume-basics-emptydir-and-persistentvolume_594834
+* https://www.magalix.com/blog/the-sidecar-pattern
