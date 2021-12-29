@@ -275,7 +275,7 @@ DAGs must be accessible to the Airflow task scheduler and task executors with th
 
 1. Shared filesystem:
 <p>
-  <img src="./pix/airflow-dags-shared-filesystem" width="800" />
+  <img src="./pix/airflow-dags-shared-filesystem.png" width="800" />
 </p>
 
 2. Git:
@@ -300,11 +300,11 @@ with DAG(
 ```
 
 <p>
-  <img src="./pix/airflow-dags-git-ftp" width="800" />
+  <img src="./pix/airflow-dags-git-ftp.png" width="800" />
 </p>
 
 <p>
-  <img src="./pix/airflow-dags-git-fetch" width="800" />
+  <img src="./pix/airflow-dags-git-fetch.png" width="800" />
 </p>
 
 3. Docker image:
@@ -318,7 +318,7 @@ helm upgrade airflow ./airflow-master/chart \
 ````
 
 <p>
-  <img src="./pix/airflow-dags-docker-image" width="800" />
+  <img src="./pix/airflow-dags-docker-image.png" width="800" />
 </p>
 
 
